@@ -1,6 +1,10 @@
 <template>
-  <div class="content">
-    <router-view></router-view>
+  <div class="main">
+    <!--主体内容部分-->
+    <div class="content">
+      <router-view></router-view>
+    </div>
+    <!--底部tab切换-->
     <div class="botm-tab">
       <ul>
         <li class="tab1" v-bind:class="{tab1ac: isTab1Ac }" v-on:click="toTab1">主页</li>
@@ -28,12 +32,7 @@
       }
     },
     components: {},
-    computed: {
-      listenCount () {
-        console.log('状态值发生改变:' + store.state.count);
-        return store.state.count
-      },
-    },
+    computed: {},
     methods: {
       toTab1: function () {
         this.isTab1Ac = true;
@@ -72,9 +71,20 @@
 
 <style scoped>
 
+  .main {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+  }
+
   .content {
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0.6rem;
+    left: 0;
+    right: 0;
   }
 
   /*start 底部菜单部分*/
