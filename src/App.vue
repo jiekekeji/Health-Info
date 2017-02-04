@@ -1,16 +1,15 @@
 <template>
-    <div>
-        <!--路由出口-->
-        <router-view></router-view>
-    </div>
+  <div>
+    <!--主路由出口-->
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: 'app',
-        components: {
-        }
-    }
+  export default {
+    name: 'app',
+    components: {}
+  }
 </script>
 
 <style>

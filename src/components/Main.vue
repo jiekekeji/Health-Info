@@ -71,7 +71,6 @@
 </script>
 
 <style scoped>
-  @import "../assets/style/reset.css";
 
   .content {
     width: 100%;

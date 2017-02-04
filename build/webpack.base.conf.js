@@ -27,8 +27,6 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components'),
-      //导入常用插件
-      "jquery": path.resolve(__dirname, '../src/assets/js/jquery-1.11.1.min.js'),
     }
   },
 
