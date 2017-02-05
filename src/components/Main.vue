@@ -82,7 +82,7 @@
     .content {
         position: fixed;
         top: 0;
-        bottom: 0.6rem;
+        bottom: 1.4rem;
         left: 0;
         right: 0;
         overflow: auto;
@@ -94,26 +94,26 @@
         bottom: 0px;
         left: 0px;
         width: 100%;
-        height: 0.6rem;
+        height: 1.4rem;
         background-color: #fafafa;
     }
 
     .botm-tab > ul {
         width: 100%;
-        height: 0.6rem;
+        height: 100%;
     }
 
     .botm-tab > ul > li {
         float: left;
         display: inline-block;
         width: 25%;
-        height: 0.6rem;
+        height: 100%;
         text-align: center;
-        line-height: 0.9rem;
-        font-size: 0.15rem;
+        line-height: 2rem;
+        font-size: 0.4rem;
         background-repeat: no-repeat;
-        background-position: center 0.05rem;
-        background-size: 0.4rem 0.3rem;
+        background-position: center 0.1rem;
+        background-size: 0.8rem 0.6rem;
     }
 
     .tab1 {

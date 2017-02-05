@@ -47,7 +47,8 @@
     import Vue from 'vue'
     import Swiper from '../assets/swiper/swiper-3.4.0.jquery.min'
     import {BaseURL, ImgURL} from '../constant/api'
-    import 'mint-ui/lib/style.css'
+    //    import 'mint-ui/lib/style.css'
+    import '../assets/style/mint.css'
     import {Indicator} from 'mint-ui';
     import {Lazyload} from 'mint-ui';
     Vue.use(Lazyload);
@@ -60,7 +61,7 @@
             }
         },
         methods: {
-            openDetail:function(index) {
+            openDetail: function (index) {
                 console.log('index');
                 this.$router.push({path: 'ImgDetail', query: {userId: 123456}});
             }
@@ -72,8 +73,10 @@
         },
         components: {},
         created () {
+//            Indicator.open();
             var temthis = this;
-            $.getJSON(BaseURL + '/list?page=2&rows=5&callback=?', function (json, code) {
+            $.getJSON(BaseURL + '/list?page=2&rows=3&callback=?', function (json, code) {
+//                Indicator.close();
                 if (code !== 'success' || json.status !== true) {
                     return;
                 }
@@ -102,9 +105,9 @@
     @import "../assets/style/base.css";
 
     .title-bar {
-        line-height: 0.5rem;
+        line-height: 1.2rem;
         text-align: center;
-        height: 0.5rem;
+        height: 1.2rem;
         width: 100%;
     }
 
@@ -113,13 +116,13 @@
 
     .swiper-container {
         width: 100%;
-        height: 120px;
+        height: 4rem;
         background-color: antiquewhite;
     }
 
     .swiper-slide > img {
         width: 100%;
-        height: 120px;
+        height: 100%;
     }
 
     .clz-menu {
@@ -131,11 +134,11 @@
     .clz-menu > ul > li {
         display: inherit;
         float: left;
-        height: 0.5rem;
-        width: 0.5rem;
+        height: 1.5625rem;
+        width: 1.5625rem;
         background-color: darkgreen;
         border-radius: 0.1rem;
-        margin-left: 0.24rem;
+        margin-left: 0.75rem;
         margin-top: 0.1rem;
         text-align: center;
         line-height: 0.5rem;
@@ -144,15 +147,15 @@
     .hot-list-container {
         position: relative;
         width: 100%;
-        height: 0.8rem;
+        height: 2.5rem;
         background-color: azure;
         margin-top: 2px;
         margin-bottom: 2px;
     }
 
     .hot-list-container > img {
-        height: 0.7rem;
-        width: 0.7rem;
+        height: 2.1875rem;
+        width: 2.1875rem;
         border-radius: 0.1rem;
         margin-top: 0.05rem;
         margin-left: 0.05rem;
