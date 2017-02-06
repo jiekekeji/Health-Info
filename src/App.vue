@@ -1,7 +1,9 @@
 <template>
   <div>
     <!--主路由出口-->
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
