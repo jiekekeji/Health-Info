@@ -2,7 +2,9 @@
   <div class="main">
     <!--主体内容部分-->
     <div class="content">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
     <!--底部tab切换-->
     <div class="botm-tab">

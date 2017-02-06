@@ -79,6 +79,7 @@ const routes = [
 //创建实例
 const router = new VueRouter({
   routes,
+  mode: 'history',
   history: true
 });
 

@@ -4,45 +4,46 @@
     <!--start 顶部标题-->
     <div class="title-bar">首页</div>
     <!--end 顶部标题-->
-    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
-      <!--star 轮播区域-->
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="item in swiperList" v-on:click="openDetail(item)">
-            <img v-bind:src="item.img">
-            <!--<img v-lazy="item.img">-->
-          </div>
-        </div>
-        <!--1、指示点放在这或放在外面-->
-        <div class="swiper-pagination"></div>
-      </div>
-      <!--end 轮播区域-->
-      <!--start 分类菜单-->
-      <div class="clz-menu">
-        <ul>
-          <li>1</li>
-          <li>1</li>
-          <li>1</li>
-          <li>1</li>
-          <li>1</li>
-          <li>1</li>
-          <li>1</li>
-          <li>1</li>
-        </ul>
-      </div>
-      <!--end 分类菜单-->
-      <!--start 热门列表-->
-      <!--<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">-->
-      <div class="hot-list">
-        <div class="hot-list-container" v-for="item in newsList" v-on:click="openDetail(item)">
-          <img v-lazy="item.img">
-          <div class="list-detail">
-            <p class="list-title">{{item.title}}</p>
-            <p class="list-time">{{item.title}}</p>
-          </div>
+    <!--star 轮播区域-->
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="item in swiperList" v-on:click="openDetail(item)">
+          <img v-bind:src="item.img">
         </div>
       </div>
-    </mt-loadmore>
+      <!--1、指示点放在这或放在外面-->
+      <div class="swiper-pagination"></div>
+    </div>
+    <!--end 轮播区域-->
+    <!--start 分类菜单-->
+    <div class="clz-menu">
+      <ul>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+      </ul>
+    </div>
+    <!--end 分类菜单-->
+    <!--start 热门列表-->
+    <div class="hot-list" v-infinite-scroll="loadMore"
+         infinite-scroll-disabled="loading"
+         infinite-scroll-distance="10">
+      <div class="hot-list-container" v-for="item in newsList" v-on:click="openDetail(item)">
+        <img v-lazy="item.img">
+        <div class="list-detail">
+          <p class="list-title">{{item.title}}</p>
+          <p class="list-time">{{item.title}}</p>
+        </div>
+      </div>
+      <p v-show="loading" class="page-infinite-loading" style="text-align: center">
+        加载中...
+      </p>
+    </div>
     <!--end 热门列表-->
   </div>
 
@@ -53,33 +54,45 @@
   import Vue from 'vue'
   import Swiper from '../assets/swiper/swiper-3.4.0.jquery.min'
   import {BaseImg, WebImg, WebHealth} from '../constant/api'
-  import '../assets/style/mint.css'
+  import 'mint-ui/lib/style.css'
   import {Indicator} from 'mint-ui';
   import {Lazyload} from 'mint-ui';
   Vue.use(Lazyload);
 
-  import {Loadmore} from 'mint-ui';
-  Vue.component(Loadmore.name, Loadmore);
+  import {InfiniteScroll} from 'mint-ui';
+  Vue.use(InfiniteScroll);
+
+  import {Spinner} from 'mint-ui';
+  Vue.component(Spinner.name, Spinner);
 
   export default{
     data(){
       return {
         swiperList: [],
         newsList: [],
-        allLoaded: true
+        loading: false
       }
     },
     methods: {
       openDetail(index) {
         this.$router.push({path: 'ImgDetail', query: {userId: 123456}});
       },
-      loadTop() {
-        // 加载更多数据
-        this.$refs.loadmore.onTopLoaded();
-      },
-      loadBottom() {
-//        this.allLoaded = true;// 若数据已全部获取完毕
-        this.$refs.loadmore.onBottomLoaded();
+      loadMore() {
+        console.log('loadMore');
+        var temthis = this;
+        temthis.loading = true;
+        $.getJSON(WebImg + '?id=2&rows=13&callback=?', function (json, code) {
+          temthis.loading = false;
+          if (code !== 'success' || json.status !== true) {
+            return;
+          }
+          var length = json.tngou.length;
+          for (var i = 0; i < length; i++) {
+            json.tngou[i].img = BaseImg + json.tngou[i].img;
+            temthis.newsList.push(json.tngou[i]);
+          }
+        })
+
       }
     },
     computer: {},
@@ -98,20 +111,6 @@
           json.tngou[i].img = BaseImg + json.tngou[i].img;
           console.log(json.tngou[i].img)
           temthis.swiperList.push(json.tngou[i]);
-        }
-      })
-      //请求分类数据
-
-      //请求列表数据
-      $.getJSON(WebImg + '?id=2&rows=13&callback=?', function (json, code) {
-        Indicator.close();
-        if (code !== 'success' || json.status !== true) {
-          return;
-        }
-        var length = json.tngou.length;
-        for (var i = 0; i < length; i++) {
-          json.tngou[i].img = BaseImg + json.tngou[i].img;
-          temthis.newsList.push(json.tngou[i]);
         }
       })
     },
