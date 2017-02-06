@@ -25,61 +25,61 @@ Vue.use(VueRouter);
 
 //路由映射配置
 const routes = [
-    {
-        path: '/',
-        redirect: '/MainHome',
-        component: Main,
-        children: [
-            {
-                path: 'MainHome',
-                component: MainHome,
-            }, {
-                path: 'MainHot',
-                component: MainHot,
-            }, {
-                path: 'MainVideo',
-                component: MainVideo,
-            }, {
-                path: 'MainMe',
-                component: MainMe,
-            }
-        ]
-    },
-    {
-        path: '/Main',
-        redirect: '/MainHome',
-        component: Main,
-        children: [
-            {
-                path: 'MainHome',
-                component: MainHome,
-            }, {
-                path: 'MainHot',
-                component: MainHot,
-            }, {
-                path: 'MainVideo',
-                component: MainVideo,
-            }, {
-                path: 'MainMe',
-                component: MainMe,
-            }
-        ]
-    },
-    {
-        name: 'ImgDetail',
-        path: '/ImgDetail',
-        component: ImgDetail,
-    },
-    {
-        path: '/Page3',
-        component: Page3
-    }
+  {
+    path: '/',
+    redirect: '/MainHome',
+    component: Main,
+    children: [
+      {
+        path: 'MainHome',
+        component: MainHome,
+      }, {
+        path: 'MainHot',
+        component: MainHot,
+      }, {
+        path: 'MainVideo',
+        component: MainVideo,
+      }, {
+        path: 'MainMe',
+        component: MainMe,
+      }
+    ]
+  },
+  {
+    path: '/Main',
+    redirect: '/MainHome',
+    component: Main,
+    children: [
+      {
+        path: 'MainHome',
+        component: MainHome,
+      }, {
+        path: 'MainHot',
+        component: MainHot,
+      }, {
+        path: 'MainVideo',
+        component: MainVideo,
+      }, {
+        path: 'MainMe',
+        component: MainMe,
+      }
+    ]
+  },
+  {
+    name: 'ImgDetail',
+    path: '/ImgDetail',
+    component: ImgDetail,
+  },
+  {
+    path: '/Page3',
+    component: Page3
+  }
 ];
 
 //创建实例
 const router = new VueRouter({
-    routes,
-    history:true
+  routes,
+  history: true
 });
 
 export default router;
