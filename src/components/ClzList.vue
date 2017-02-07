@@ -78,7 +78,6 @@
       if (0 !== scrollTop) {
         $(window).scrollTop(scrollTop);
       }
-
     },
     beforeRouteEnter  (to, from, next) {
       console.log('beforeRouteEnter');
