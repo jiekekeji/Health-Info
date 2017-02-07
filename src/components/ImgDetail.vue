@@ -1,54 +1,126 @@
 <template>
-    <div class="nav">
-        这是Page2组件
-        <button v-on:click="changePage1">改变Page1组件中msg的值,不带参数</button>
-        <button v-on:click="changePage1ByPara">改变Page1组件中msg的值，带参数</button>
-        <button v-on:click="changePage1ByObj">改变Page1组件中msg的值，对象风格提交</button>
-        <button v-on:click="changePage1Stu">改变Page1组件中姓名和年龄</button>
+  <div>
+    <div class="hot-list" v-infinite-scroll="loadMore"
+         infinite-scroll-disabled="loading"
+         infinite-scroll-distance="10">
+      <div class="hot-list-container" v-for="item in newsList" v-on:click="openDetail(item)">
+        <img v-lazy="item.img">
+        <div class="list-detail">
+          <p class="list-title">{{item.title}}</p>
+          <p class="list-time">{{item.title}}</p>
+        </div>
+      </div>
+      <p v-show="loading" class="page-infinite-loading" style="text-align: center">
+        加载中...
+      </p>
     </div>
+  </div>
 </template>
 
 <script>
-    import store from '../store/store'
-    export default {
-        name: 'topnav',
-        data () {
-            return {
-                msg: 'Welcome to Your Vue.js App',
-            }
-        },
-        methods: {
-            changePage1: function () {
-                //提交mutations
-                store.dispatch('aincrement');
-            },
-            changePage1ByPara: function () {
-                //带参数的
-                store.dispatch('aincrementn', 3);
-            },
-            changePage1ByObj: function () {
-                store.dispatch({
-                    type: 'aincrementobj',
-                    amount: 10
-                });
-            },
-            changePage1Stu: function () {
-                store.dispatch({
-                    type: 'asetStu',
-                    name: 'rose',
-                    age: 90
-                });
-            }
-        },
-    }
+  import Vue from 'vue'
+  import Swiper from '../assets/swiper/swiper-3.4.0.jquery.min'
+  import {BaseImg, WebImg, WebHealth} from '../constant/api'
+  import 'mint-ui/lib/style.css'
+  import {Indicator} from 'mint-ui';
+  import {Lazyload} from 'mint-ui';
+  Vue.use(Lazyload);
+
+  import {InfiniteScroll} from 'mint-ui';
+  Vue.use(InfiniteScroll);
+
+  import {Spinner} from 'mint-ui';
+  Vue.component(Spinner.name, Spinner);
+
+  import {setDocumentTitle} from '../constant/utils'
+
+  export default {
+    name: 'topnav',
+    data () {
+      return {
+        loading: false,
+        newsList: [],
+      }
+    },
+    methods: {
+      //请求列表数据
+      loadMore() {
+        console.log('loadMore');
+        var temthis = this;
+        temthis.loading = true;
+        $.getJSON(WebImg + '?id=2&rows=13&callback=?', function (json, code) {
+          temthis.loading = false;
+          if (code !== 'success' || json.status !== true) {
+            return;
+          }
+          var length = json.tngou.length;
+          for (var i = 0; i < length; i++) {
+            json.tngou[i].img = BaseImg + json.tngou[i].img;
+            temthis.newsList.push(json.tngou[i]);
+          }
+        })
+      }
+    },
+    activated: function () {
+      console.log('activated');
+      setDocumentTitle('热门');
+    },
+  }
 </script>
 
 <style scoped>
-    .nav {
-        height: 100px;
-        width: 100%;
-        text-align: center;
-        line-height: 100px;
-        background-color: antiquewhite;
-    }
+  .hot-list {
+    background-color: #FAFAFA;
+  }
+
+  .hot-list-container {
+    position: relative;
+    width: 100%;
+    height: 2.5rem;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  .hot-list-container > img {
+    height: 2.1875rem;
+    width: 2.1875rem;
+    border-radius: 0.1rem;
+    margin-top: 0.05rem;
+    margin-left: 0.05rem;
+    margin-bottom: 0.05rem;
+    margin-right: 0.05rem;
+  }
+
+  .hot-list-container > img [lazy=loading] {
+    height: 2.1875rem;
+    width: 2.1875rem;
+    /*margin: auto;*/
+    /*background-color: red;*/
+  }
+
+  .list-detail {
+    position: absolute;
+    left: 2.2875rem;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .list-detail > .list-title {
+    font-size: 0.4rem;
+    width: 100%;
+    height: 1.7rem;
+    /*padding: 4px;*/
+    text-overflow: ellipsis;
+    /*margin: 4px;*/
+  }
+
+  .list-detail > .list-time {
+    font-size: 14px;
+    line-height: 0.5rem;
+    width: 100%;
+    height: 0.5rem;
+    background-color: beige;
+    text-indent: 5px;
+  }
 </style>
