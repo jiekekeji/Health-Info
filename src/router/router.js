@@ -17,7 +17,7 @@ const MainVideo = resolve => require(['../components/MainVideo.vue'], resolve)
 const MainMe = resolve => require(['../components/MainMe.vue'], resolve)
 
 
-const ImgDetail = resolve => require(['../components/ImgDetail.vue'], resolve)
+const ImgDetail = resolve => require(['../components/ClzList.vue'], resolve)
 const Page3 = resolve => require(['../components/Page3.vue'], resolve)
 
 
