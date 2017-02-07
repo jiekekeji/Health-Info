@@ -8,7 +8,7 @@ export function setDocumentTitle(title) {
     //利用iframe的onload事件刷新页面
     document.title = title;
     var iframe = document.createElement('iframe');
-    iframe.src = '/static/public/logo.png'; // 必须
+    iframe.src = '../../static/public/logo.png'; // 必须
     iframe.style.visibility = 'hidden';
     iframe.style.width = '1px';
     iframe.style.height = '1px';
