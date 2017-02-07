@@ -137,7 +137,6 @@
     },
     activated: function () {
       console.log('activated');
-      window.scrollTo(0, 100);
       setDocumentTitle('首页');
     },
     beforeRouteEnter  (to, from, next) {
@@ -145,7 +144,7 @@
       next();
     },
     beforeRouteLeave (to, from, next) {
-      console.log('beforeRouteLeave');
+      console.log('beforeRouteLeave=');
       next();
     },
   }
