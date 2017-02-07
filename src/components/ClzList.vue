@@ -1,3 +1,4 @@
+<!--分类列表-->
 <template>
   <div>
     <div class="hot-list" v-infinite-scroll="loadMore"
@@ -40,9 +41,14 @@
       return {
         loading: false,
         newsList: [],
+        scrollTop: 0
       }
     },
     methods: {
+      //列表点击事件
+      openDetail(item){
+        this.$router.push({path: 'Page3', query: {userId: 123456}});
+      },
       //请求列表数据
       loadMore() {
         console.log('loadMore');
@@ -63,7 +69,27 @@
     },
     activated: function () {
       console.log('activated');
-      setDocumentTitle('热门');
+      var tempThis = this;
+
+      setDocumentTitle('分类列表');
+
+      //滚回到之前的地方
+      var scrollTop = sessionStorage.getItem('ClzList');
+      if (0 !== scrollTop) {
+        $(window).scrollTop(scrollTop);
+      }
+
+    },
+    beforeRouteEnter  (to, from, next) {
+      console.log('beforeRouteEnter');
+      next();
+    },
+    beforeRouteLeave (to, from, next) {
+      //记录滚动的位置
+      var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+      sessionStorage.setItem('ClzList', scrollTop);
+      console.log('beforeRouteLeave=' + scrollTop);
+      next();
     },
   }
 </script>
