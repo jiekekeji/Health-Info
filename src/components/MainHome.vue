@@ -65,6 +65,8 @@
   import {Spinner} from 'mint-ui';
   Vue.component(Spinner.name, Spinner);
 
+  import {setDocumentTitle} from '../constant/utils'
+
   export default{
     data(){
       return {
@@ -74,9 +76,11 @@
       }
     },
     methods: {
+      //打开详情页
       openDetail(index) {
         this.$router.push({path: 'ImgDetail', query: {userId: 123456}});
       },
+      //请求列表数据
       loadMore() {
         console.log('loadMore');
         var temthis = this;
@@ -92,37 +96,57 @@
             temthis.newsList.push(json.tngou[i]);
           }
         })
-
+      },
+      //请求轮播数据
+      loadSwiperList(){
+        Indicator.open();
+        var temthis = this;
+        $.getJSON(WebImg + '?id=2&rows=2&callback=?', function (json, code) {
+          Indicator.close();
+          if (code !== 'success' || json.status !== true) {
+            return;
+          }
+          var length = json.tngou.length;
+          for (var i = 0; i < length; i++) {
+            json.tngou[i].img = BaseImg + json.tngou[i].img;
+            console.log(json.tngou[i].img)
+            temthis.swiperList.push(json.tngou[i]);
+          }
+        })
+      },
+      //初始化轮播列表
+      initSwiperList(){
+        var mySwiper = new Swiper('.swiper-container', {
+          direction: 'horizontal',
+          pagination: '.swiper-pagination',
+          paginationClickable: true,
+          centeredSlides: true,
+          autoplay: 1000,
+          observer: true,
+        });
       }
     },
     computer: {},
     components: {},
     created () {
-      Indicator.open();
-      var temthis = this;
-      //请求轮播数据
-      $.getJSON(WebImg + '?id=2&rows=2&callback=?', function (json, code) {
-        Indicator.close();
-        if (code !== 'success' || json.status !== true) {
-          return;
-        }
-        var length = json.tngou.length;
-        for (var i = 0; i < length; i++) {
-          json.tngou[i].img = BaseImg + json.tngou[i].img;
-          console.log(json.tngou[i].img)
-          temthis.swiperList.push(json.tngou[i]);
-        }
-      })
+      this.loadSwiperList();
     },
     mounted: function () {
-      var mySwiper = new Swiper('.swiper-container', {
-        direction: 'horizontal',
-        pagination: '.swiper-pagination',
-        paginationClickable: true,
-        centeredSlides: true,
-        autoplay: 1000,
-        observer: true,
-      });
+      this.initSwiperList();
+      console.log(this);
+    },
+    activated: function () {
+      console.log('activated');
+      window.scrollTo(0, 100);
+      setDocumentTitle('首页');
+    },
+    beforeRouteEnter  (to, from, next) {
+      console.log('beforeRouteEnter');
+      next();
+    },
+    beforeRouteLeave (to, from, next) {
+      console.log('beforeRouteLeave');
+      next();
     },
   }
 </script>
