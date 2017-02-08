@@ -53,7 +53,7 @@
 <script>
   import Vue from 'vue'
   import Swiper from '../assets/swiper/swiper-3.4.0.jquery.min'
-  import {BaseImg, WebImg, WebHealth} from '../constant/api'
+  import {BaseImg, WebImg, WebHealth, SERVER, AppKey} from '../constant/api'
   import 'mint-ui/lib/style.css'
   import {Indicator} from 'mint-ui';
   import {Lazyload} from 'mint-ui';
@@ -72,6 +72,7 @@
       return {
         swiperList: [],
         newsList: [],
+        clzList: [],
         loading: false
       }
     },
@@ -124,12 +125,21 @@
           autoplay: 1000,
           observer: true,
         });
+      },
+      //请求分类列表数据
+      loadClzList(){
+        this.$http.get('/api/Lore/LoreClass').then(resp => {
+          console.log(resp.body);
+        }, error => {
+          console.log('error');
+        });
       }
     },
     computer: {},
     components: {},
     created () {
       this.loadSwiperList();
+      this.loadClzList();
     },
     mounted: function () {
       this.initSwiperList();
