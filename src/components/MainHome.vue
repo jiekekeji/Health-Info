@@ -53,7 +53,7 @@
 <script>
   import Vue from 'vue'
   import Swiper from '../assets/swiper/swiper-3.4.0.jquery.min'
-  import {BaseImg, WebImg, WebHealth, SERVER, AppKey} from '../constant/api'
+  import {SERVER, AppKey} from '../constant/api'
   import 'mint-ui/lib/style.css'
   import {Indicator} from 'mint-ui';
   import {Lazyload} from 'mint-ui';
@@ -83,37 +83,58 @@
       },
       //请求列表数据
       loadMore() {
-        console.log('loadMore');
-        var temthis = this;
-        temthis.loading = true;
-        $.getJSON(WebImg + '?id=2&rows=13&callback=?', function (json, code) {
-          temthis.loading = false;
-          if (code !== 'success' || json.status !== true) {
-            return;
-          }
-          var length = json.tngou.length;
-          for (var i = 0; i < length; i++) {
-            json.tngou[i].img = BaseImg + json.tngou[i].img;
-            temthis.newsList.push(json.tngou[i]);
-          }
-        })
+//        console.log('loadMore');
+//        var temthis = this;
+//        temthis.loading = true;
+//        $.getJSON(WebImg + '?id=2&rows=13&callback=?', function (json, code) {
+//          temthis.loading = false;
+//          if (code !== 'success' || json.status !== true) {
+//            return;
+//          }
+//          var length = json.tngou.length;
+//          for (var i = 0; i < length; i++) {
+//            json.tngou[i].img = BaseImg + json.tngou[i].img;
+//            temthis.newsList.push(json.tngou[i]);
+//          }
+//        })
       },
       //请求轮播数据
       loadSwiperList(){
-        Indicator.open();
         var temthis = this;
-        $.getJSON(WebImg + '?id=2&rows=2&callback=?', function (json, code) {
+        Indicator.open();
+        this.$http.get(SERVER + 'Lore/News?key=' + AppKey + '&classify=2&page=2&rows=3&id=1').then(resp => {
           Indicator.close();
-          if (code !== 'success' || json.status !== true) {
+          if (0 !== resp.body.error_code) {
+            //加载失败
+            console.log('加载失败')
             return;
           }
-          var length = json.tngou.length;
+          console.log('加载成功')
+          var length = resp.body.result.length;
+          console.log('加载成功=' + length)
           for (var i = 0; i < length; i++) {
-            json.tngou[i].img = BaseImg + json.tngou[i].img;
-            console.log(json.tngou[i].img)
-            temthis.swiperList.push(json.tngou[i]);
+            temthis.swiperList.push(resp.body.result[i]);
+            console.log(resp.body.result[i]);
           }
-        })
+        }, error => {
+          Indicator.close();
+          console.log('error');
+        });
+
+//        Indicator.open();
+//        var temthis = this;
+//        $.getJSON(WebImg + '?id=2&rows=2&callback=?', function (json, code) {
+//          Indicator.close();
+//          if (code !== 'success' || json.status !== true) {
+//            return;
+//          }
+//          var length = json.tngou.length;
+//          for (var i = 0; i < length; i++) {
+//            json.tngou[i].img = BaseImg + json.tngou[i].img;
+//            console.log(json.tngou[i].img)
+//            temthis.swiperList.push(json.tngou[i]);
+//          }
+//        })
       },
       //初始化轮播列表
       initSwiperList(){
@@ -128,7 +149,7 @@
       },
       //请求分类列表数据
       loadClzList(){
-        this.$http.get('/api/Lore/LoreClass').then(resp => {
+        this.$http.get(SERVER + 'Lore/LoreClass?key=' + AppKey).then(resp => {
           console.log(resp.body);
         }, error => {
           console.log('error');
@@ -139,7 +160,7 @@
     components: {},
     created () {
       this.loadSwiperList();
-      this.loadClzList();
+//      this.loadClzList();
     },
     mounted: function () {
       this.initSwiperList();
