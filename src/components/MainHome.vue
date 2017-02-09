@@ -101,7 +101,7 @@
       //请求轮播数据
       loadSwiperList(){
         var temthis = this;
-        Indicator.open();
+//        Indicator.open();
         this.$http.get(SERVER + 'Lore/News?key=' + AppKey + '&classify=2&page=2&rows=3&id=1').then(resp => {
           Indicator.close();
           if (0 !== resp.body.error_code) {
