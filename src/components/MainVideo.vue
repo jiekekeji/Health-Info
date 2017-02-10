@@ -19,6 +19,7 @@
 
     <!--end 操作部分-->
 
+    <Page3></Page3>
 
     <!--start 弹窗部分-->
     <div class="dg-container">
@@ -129,6 +130,7 @@
   import md5 from 'js-md5'
   import 'mint-ui/lib/style.css'
   import {Indicator} from 'mint-ui';
+  import Page3 from './Page3.vue'
   require('../assets/superslide/jquery.SuperSlide.2.1.1')
   export default{
     data(){
@@ -137,7 +139,9 @@
         infoList: []
       }
     },
-    components: {},
+    components: {
+      'Page3': Page3
+    },
     created () {
       console.log('created');
       this.loadInfoList();
@@ -145,7 +149,7 @@
     },
     mounted: function () {
       console.log('mounted');
-//打开窗口
+      //打开窗口
       $('.btn').on('click', function (event) {
         event.preventDefault();
         $('.dg-container').addClass('is-visible3');
@@ -158,6 +162,8 @@
           $(this).removeClass('is-visible3');
         }
       });
+
+      console.log(Page3.methods);
     },
     methods: {
       loadInfoList(){
